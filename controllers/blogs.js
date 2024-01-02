@@ -1,10 +1,15 @@
+const logger = require("../utils/logger");
 const blogRouter = require("express").Router();
 const Blog = require("../models/blog");
 
-blogRouter.get("/", (request, response) => {
-  Blog.find({}).then((blogs) => {
+blogRouter.get("/", async (request, response) => {
+  try {
+    const blogs = await Blog.find({});
     response.json(blogs);
-  });
+  } catch (err) {
+    logger.error(err.message);
+    response.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 blogRouter.post("/", (request, response) => {
