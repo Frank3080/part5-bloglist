@@ -22,4 +22,4 @@ usersRouter.post("/", async (request, response) => {
   response.status(201).json(savedUser);
 });
 
-module.exports = { usersRouter };
+module.exports = usersRouter;

@@ -2,6 +2,7 @@ const logger = require("../utils/logger");
 const blogRouter = require("express").Router();
 const Blog = require("../models/blog");
 const validUrl = require("valid-url");
+const User = require("../models/user");
 
 blogRouter.get("/", async (request, response) => {
   try {
@@ -24,11 +25,14 @@ blogRouter.post("/", async (request, response) => {
     return response.status(400).json({ error: "Valid URL is required" });
   }
 
+  const user = await User.findOne({});
+
   const blog = new Blog({
     title: blogInfo.title,
     author: blogInfo.author,
     url: blogInfo.url,
     likes: blogInfo.likes !== undefined ? blogInfo.likes : 0,
+    user: user._id,
   });
 
   try {
