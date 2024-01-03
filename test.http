@@ -8,14 +8,13 @@ POST {{baseUrl}}/api/blogs
 Content-Type: application/json
 
 {
-  "title": "New Blog Post",
-  "author": "John Doe",
-  "url": "https://example.com/new-blog",
-  "likes": 5
+    "username": "root",
+    "name": "Superuser",
+    "password": "salainen"
 }
 
 ### GET all blogs after adding
 GET {{baseUrl}}/api/blogs
 
 ###
-DELETE
+DELETE {{baseUrl}}/api/blogs/6593d59754f0618421e9af0b
