@@ -9,10 +9,10 @@ POST {{baseUrl}}/api/blogs
 Content-Type: application/json
 
 {
-  "title": "Test asdasd 4",
-  "author": "Test Aasdasdhor 4",
-  "url": "https://test5.com",
-  "likes": 6,
+  "title": "asdasd asdasd 4",
+  "author": "asdasd Aasdasdhor 4",
+  "url": "https://asdasdasdasd.com",
+  "likes": 26,
   "user": {
     "username": "asdaasdasdsd",
     "name": "asdasdas",
@@ -25,4 +25,4 @@ Content-Type: application/json
 GET {{baseUrl}}/api/blogs
 
 ###
-DELETE {{baseUrl}}/api/blogs/6593d59754f0618421e9af0b
+DELETE {{baseUrl}}/api/blogs/6596df917e93575607d277ca
