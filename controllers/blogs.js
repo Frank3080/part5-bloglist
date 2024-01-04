@@ -1,8 +1,10 @@
 const logger = require("../utils/logger");
+const jwt = require("jsonwebtoken");
 const blogRouter = require("express").Router();
 const Blog = require("../models/blog");
 const validUrl = require("valid-url");
 const User = require("../models/user");
+const { userExtractor } = require("../utils/middleware");
 
 blogRouter.get("/", async (request, response) => {
   try {
@@ -27,8 +29,22 @@ blogRouter.get("/:id", async (request, response) => {
   }
 });
 
-blogRouter.post("/", async (request, response) => {
+const getTokenFrom = (request) => {
+  const authorization = request.get("authorization");
+  if (authorization && authorization.startsWith("Bearer ")) {
+    return authorization.replace("Bearer ", "");
+  }
+  return null;
+};
+
+blogRouter.post("/", userExtractor, async (request, response) => {
   const blogInfo = request.body;
+
+  const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET);
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: "token invalid" });
+  }
+  const user = await User.findById(decodedToken.id);
 
   if (!blogInfo.title) {
     return response.status(400).json({ error: "Title is required" });
@@ -37,8 +53,6 @@ blogRouter.post("/", async (request, response) => {
   if (!blogInfo.url || !validUrl.isUri(blogInfo.url)) {
     return response.status(400).json({ error: "Valid URL is required" });
   }
-
-  const user = await User.findOne({});
 
   const blog = new Blog({
     title: blogInfo.title,
@@ -84,20 +98,20 @@ blogRouter.put("/:id", async (request, response) => {
   }
 });
 
-blogRouter.delete("/:id", async (request, response) => {
-  const { id } = request.params;
-
+blogRouter.delete("/:id", userExtractor, async (request, response) => {
+  const { params, user } = request;
+  const blog = await Blog.findById(params.id);
   try {
-    const deletedBlog = await Blog.findByIdAndDelete(id);
-
-    if (!deletedBlog) {
-      return response.status(404).json({ error: "Blog not found" });
+    if (blog.user.toString() !== user.id.toString()) {
+      return response
+        .status(401)
+        .json({ error: "only the user who added the blog can delete it" });
     }
-
+    await blog.deleteOne();
     response.status(204).end();
   } catch (err) {
-    console.error(err);
-    response.status(500).json({ error: "Internal Server Error" });
+    logger.error(err);
+    return response.status(500).json({ error: "Internal Server Error " });
   }
 });
 
