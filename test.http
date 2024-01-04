@@ -2,7 +2,15 @@
 
 ### GET existing blogs
 GET {{baseUrl}}/api/blogs
+### POST a new user
+POST {{baseUrl}}/api/users
+Content-Type: application/json
 
+{
+    "username": "frank",
+    "name": "frank",
+    "password": "123123"
+}
 
 ### POST a new blog
 POST {{baseUrl}}/api/blogs
@@ -26,3 +34,12 @@ GET {{baseUrl}}/api/blogs
 
 ###
 DELETE {{baseUrl}}/api/blogs/6596df917e93575607d277ca
+
+### logging in
+POST {{baseUrl}}/api/login HTTP/1.1
+
+Content-Type: application/json
+{
+    "username": "frank",
+    "password": "123123"
+}
