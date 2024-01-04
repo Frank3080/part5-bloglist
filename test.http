@@ -3,14 +3,22 @@
 ### GET existing blogs
 GET {{baseUrl}}/api/blogs
 
+
 ### POST a new blog
 POST {{baseUrl}}/api/blogs
 Content-Type: application/json
 
 {
-    "username": "root",
-    "name": "Superuser",
-    "password": "salainen"
+  "title": "Test asdasd 4",
+  "author": "Test Aasdasdhor 4",
+  "url": "https://test5.com",
+  "likes": 6,
+  "user": {
+    "username": "asdaasdasdsd",
+    "name": "asdasdas",
+    "id": "randoasdasdm id"
+  },
+  "id": "659464ff9094e90f765db98b"
 }
 
 ### GET all blogs after adding

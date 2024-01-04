@@ -22,4 +22,4 @@ app.use(express.json());
 app.use("/api/blogs", blogRouter);
 app.use("/api/users", usersRouter);
 
-module.exports = { app };
+module.exports = app;
