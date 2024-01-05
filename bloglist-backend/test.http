@@ -1,0 +1,45 @@
+@baseUrl = http://localhost:3003
+
+### GET existing blogs
+GET {{baseUrl}}/api/blogs
+### POST a new user
+POST {{baseUrl}}/api/users
+Content-Type: application/json
+
+{
+    "username": "frank",
+    "name": "frank",
+    "password": "123123"
+}
+
+### POST a new blog
+POST {{baseUrl}}/api/blogs
+Content-Type: application/json
+
+{
+  "title": "asdasd asdasd 4",
+  "author": "asdasd Aasdasdhor 4",
+  "url": "https://asdasdasdasd.com",
+  "likes": 26,
+  "user": {
+    "username": "asdaasdasdsd",
+    "name": "asdasdas",
+    "id": "randoasdasdm id"
+  },
+  "id": "659464ff9094e90f765db98b"
+}
+
+### GET all blogs after adding
+GET {{baseUrl}}/api/blogs
+
+###
+DELETE {{baseUrl}}/api/blogs/6596df917e93575607d277ca
+
+### logging in
+POST {{baseUrl}}/api/login HTTP/1.1
+
+Content-Type: application/json
+{
+    "username": "frank",
+    "password": "123123"
+}
