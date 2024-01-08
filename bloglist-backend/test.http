@@ -17,16 +17,14 @@ POST {{baseUrl}}/api/blogs
 Content-Type: application/json
 
 {
-  "title": "asdasd asdasd 4",
-  "author": "asdasd Aasdasdhor 4",
+  "title": "How to do the",
+  "author": "frank",
   "url": "https://asdasdasdasd.com",
   "likes": 26,
   "user": {
-    "username": "asdaasdasdsd",
-    "name": "asdasdas",
-    "id": "randoasdasdm id"
+    "username": "frank",
+    "name": "frank",
   },
-  "id": "659464ff9094e90f765db98b"
 }
 
 ### GET all blogs after adding
