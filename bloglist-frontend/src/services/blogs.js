@@ -3,6 +3,12 @@ const baseUrl = "http://localhost:3003/api/blogs";
 
 let token = null;
 
+const config = () => ({
+  headers: {
+    Authorization: token,
+  },
+});
+
 const setToken = (newToken) => {
   token = `Bearer ${newToken}`;
 };
@@ -21,9 +27,13 @@ const create = async (newObject) => {
   return response.data;
 };
 
-const update = (id, newObject) => {
+const update = async (id, newObject) => {
   const request = axios.put(`${baseUrl}/${id}`, newObject);
   return request.then((response) => response.data);
 };
 
-export default { getAll, create, update, setToken };
+const deleteBlog = async (id) => {
+  await axios.delete(`${baseUrl}/${id}`, config());
+};
+
+export default { getAll, create, update, deleteBlog, setToken };

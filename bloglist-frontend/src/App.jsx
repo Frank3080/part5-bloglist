@@ -75,6 +75,31 @@ const App = () => {
     }
   };
 
+  const updateBlog = async (blog) => {
+    try {
+      await blogService.update(blog.id, blog);
+      const blogs = await blogService.getAll();
+      setBlogs(blogs.sort((a, b) => b.likes - a.likes));
+      messageHandler(`${blog.title} liked.`, "success");
+    } catch (error) {
+      messageHandler(`Liking ${blog.title} failed.`, "error");
+    }
+  };
+
+  const deleteBlog = async (id, blog) => {
+    try {
+      if (window.confirm(`Remove blog: "${blog.title}"?`)) {
+        await blogService.deleteBlog(id);
+        const response = await blogService.getAll();
+        setBlogs(response);
+        messageHandler(`${blog.title} has been removed.`, "success");
+      }
+    } catch (error) {
+      console.log(error);
+      messageHandler(`Deleting ${blog.title} failed.`, "error");
+    }
+  };
+
   if (user === null) {
     return (
       <div>
@@ -100,10 +125,16 @@ const App = () => {
         <button onClick={handleLogout}>Logout</button>
         <div>
           {blogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} />
+            <Blog
+              key={blog.id}
+              blog={blog}
+              updateBlog={updateBlog}
+              deleteBlog={deleteBlog}
+              username={user.username}
+            />
           ))}
         </div>
-        <Toggable buttonLabel="new blog">
+        <Toggable buttonLabel="Create new blog">
           <BlogForm createBlog={createBlog} />
         </Toggable>
       </div>

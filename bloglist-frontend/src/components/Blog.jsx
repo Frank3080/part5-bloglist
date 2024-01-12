@@ -1,4 +1,9 @@
-const Blog = ({ blog }) => {
+import { useState } from "react";
+
+const Blog = ({ blog, updateBlog, deleteBlog, username }) => {
+  const [visible, setVisible] = useState(false);
+  const [userLikes, setUserLikes] = useState(blog.likes);
+
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -7,9 +12,43 @@ const Blog = ({ blog }) => {
     marginBottom: 5,
   };
 
+  const updatedBlog = {
+    title: blog.title,
+    author: blog.author,
+    url: blog.url,
+    user: blog.user.id,
+    id: blog.id,
+    likes: userLikes + 1,
+  };
+
+  const addLike = () => {
+    setUserLikes(userLikes + 1);
+    updateBlog(updatedBlog);
+  };
+
   return (
     <div>
-      {blog.title} {blog.author}
+      <div style={blogStyle}>
+        {blog.title} : {blog.author}
+      </div>
+      <button onClick={() => setVisible(!visible)}>
+        {visible ? "hide" : "view"}
+      </button>
+      {visible && (
+        <div>
+          <a href={blog.url.includes("//") ? blog.url : `//${blog.url}`}>
+            {blog.url}
+          </a>
+          <div>
+            likes {blog.likes}
+            <button onClick={addLike}>Like</button>
+          </div>
+          <div>{blog.user.username}</div>
+          {blog.user.username === username && (
+            <button onClick={() => deleteBlog(blog.id, blog)}>Remove</button>
+          )}
+        </div>
+      )}
     </div>
   );
 };
