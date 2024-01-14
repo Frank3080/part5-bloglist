@@ -121,7 +121,7 @@ const App = () => {
       <Notification message={message} />
       <h2>Blogs</h2>
       <div>
-        <p>{user.name} logged in</p>
+        <p>{`${user.name} logged in `}</p>
         <button onClick={handleLogout}>Logout</button>
         <div>
           {blogs.map((blog) => (

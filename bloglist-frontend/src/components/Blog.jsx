@@ -16,7 +16,7 @@ const Blog = ({ blog, updateBlog, deleteBlog, username }) => {
     title: blog.title,
     author: blog.author,
     url: blog.url,
-    user: blog.user.id,
+    user: blog.user,
     id: blog.id,
     likes: userLikes + 1,
   };
@@ -26,14 +26,16 @@ const Blog = ({ blog, updateBlog, deleteBlog, username }) => {
     updateBlog(updatedBlog);
   };
 
+  const handleClick = () => {
+    setVisible((prevVisible) => !prevVisible);
+  };
+
   return (
     <div>
       <div style={blogStyle}>
         {blog.title} : {blog.author}
       </div>
-      <button onClick={() => setVisible(!visible)}>
-        {visible ? "hide" : "view"}
-      </button>
+      <button onClick={handleClick}>{visible ? "hide" : "view"}</button>
       {visible && (
         <div>
           <a href={blog.url.includes("//") ? blog.url : `//${blog.url}`}>
@@ -43,8 +45,8 @@ const Blog = ({ blog, updateBlog, deleteBlog, username }) => {
             likes {blog.likes}
             <button onClick={addLike}>Like</button>
           </div>
-          <div>{blog.user.username}</div>
-          {blog.user.username === username && (
+          <div>{blog.username}</div>
+          {blog.username === username && (
             <button onClick={() => deleteBlog(blog.id, blog)}>Remove</button>
           )}
         </div>
